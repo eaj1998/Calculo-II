@@ -1,49 +1,50 @@
 import numpy as np
 
-# Função f(x) definida conforme a observação
+# Função para ser integrada
 def f(x):
     return np.exp(-x) + 1
 
-def trapezio(a, b, n):
-    """
-    Calcula a aproximação da área sob a curva y=f(x) no intervalo [a, b]
-    usando o método dos trapézios com n subintervalos.
-    
-    :param a: Limite inferior do intervalo.
-    :param b: Limite superior do intervalo.
-    :param n: Número de subintervalos.
-    :return: Aproximação da área.
-    """
-    # Comprimento de cada subintervalo
+# Regra dos Trapézios
+def trapezoidal_rule(a, b, n, f=f):
+    # Tamanho dos subintervalos
     h = (b - a) / n
-    
-    # Calcula a soma dos valores de f nos extremos
-    soma = (f(a) + f(b)) / 2
-    
-    # Adiciona a soma dos valores de f nos pontos internos
+    # Soma dos valores de f(x) nos subintervalos
+    result = 0.5 * (f(a) + f(b))  # Inicia com os extremos a e b
     for i in range(1, n):
-        xi = a + i * h
-        soma += f(xi)
-    
-    # Multiplica pela largura do intervalo e retorna a área aproximada
-    return soma * h
+        x_i = a + i * h
+        result += f(x_i)
+    result *= h
+    return result
 
+# Parâmetros de entrada
+def calculate_area(a, b, n):
+    area = trapezoidal_rule(a, b, n)
+    return area
+
+# Função principal para rodar o cálculo com valores fixos de n
 def main():
-    # Solicita a entrada do usuário
-    a = float(input("Digite o valor de a: "))
-    b = float(input("Digite o valor de b: "))
-    n = int(input("Digite o número de subintervalos (4, 10, 50 ou outro): "))
+    a = float(input("Digite o valor de a (limite inferior): "))
+    b = float(input("Digite o valor de b (limite superior): "))
+    print("Escolha o número de subintervalos:")
+    print("1. n = 4")
+    print("2. n = 10")
+    print("3. n = 50")
+    option = int(input("Digite a opção (1, 2 ou 3): "))
     
-    # Verifica se o número de subintervalos é válido
-    if n <= 0:
-        print("Número de subintervalos deve ser positivo.")
-        return
+    if option == 1:
+        n = 4
+    elif option == 2:
+        n = 10
+    elif option == 3:
+        n = 50
+    else:
+        print("Opção inválida, usando n = 4 por padrão.")
+        n = 4
     
-    # Calcula a área aproximada usando o método dos trapézios
-    area_aproximada = trapezio(a, b, n)
-    
-    # Exibe o resultado
-    print(f"Aproximação da área sob a curva y=f(x) no intervalo [{a}, {b}] com {n} subintervalos: {area_aproximada:.6f}")
+    # Calcular a área aproximada
+    area = calculate_area(a, b, n)
+    print(f"A aproximação da área sob a curva no intervalo [{a}, {b}] com n = {n} subintervalos é: {area:.6f}")
 
+# Executar a função principal
 if __name__ == "__main__":
     main()
