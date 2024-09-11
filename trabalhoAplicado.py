@@ -44,6 +44,9 @@ def main():
     # Calcular a área aproximada
     area = calculate_area(a, b, n)
     print(f"A aproximação da área sob a curva no intervalo [{a}, {b}] com n = {n} subintervalos é: {area:.6f}")
+    option = int(input("Se você deseja sair, digite 99: "))
+    if(option!=99):
+        main()
 
 # Executar a função principal
 if __name__ == "__main__":
